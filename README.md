@@ -65,4 +65,13 @@ git add . && git commit -m "Paper: title" && git push
 
 To publish a queued draft on demand: **Actions → Weekend publish → Run workflow**.
 
+## 🗓️ Weekly review (automatic)
+
+Every **Sunday ~23:00 IST**, the [weekly review](.github/workflows/weekly-review.yml) workflow reads the commits I made that week across my repositories and uses **GitHub Models** (GitHub's built-in AI, the models behind Copilot) to:
+
+- **Document the week** in `notes/weekly/<year>-W<week>.md`: a summary, what changed per repository, concepts learned, next steps, plus exact stats from the GitHub API.
+- **Plan improvements** when there were no weekend commits: `plans/<year>-W<week>-plan.md` plus a GitHub Issue with a checklist for next weekend.
+
+Run it any time from **Actions → Weekly review → Run workflow**. To include private or organization repos, add a fine-grained token with read access as the `GH_PAT` secret.
+
 Topics live in `notes/`: `rag`, `agents`, `mcp`, `llm`, `fine-tuning`, `backend`. Any new `--category` creates a new folder.

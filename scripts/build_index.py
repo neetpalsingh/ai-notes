@@ -11,7 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 README = ROOT / "README.md"
 START, END = "<!-- INDEX:START -->", "<!-- INDEX:END -->"
-TYPE_LABEL = {"til": "💡 TIL", "paper": "📄 Paper", "snippet": "🧩 Snippet"}
+TYPE_LABEL = {"til": "💡 TIL", "paper": "📄 Paper", "snippet": "🧩 Snippet", "weekly": "🗓️ Weekly log"}
 
 
 def front_matter(text: str) -> dict:

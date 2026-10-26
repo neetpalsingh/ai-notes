@@ -1,0 +1,60 @@
+name: Weekly review
+
+# Every Sunday ~23:00 IST: document the week's commits with GitHub Models, and
+# if there were no weekend commits, write an improvement plan and open an issue.
+on:
+  schedule:
+    - cron: '30 17 * * 0'   # Sunday 17:30 UTC = 23:00 IST
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  issues: write
+  models: read
+
+jobs:
+  review:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Optional: add a fine-grained PAT as the GH_PAT secret to include private/org repos
+      SEARCH_TOKEN: ${{ secrets.GH_PAT }}
+      GITHUB_USER: neetpalsingh
+      MODEL: openai/gpt-4.1-mini
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Make sure the plan label exists
+        run: gh label create improvement-plan --color FA5D19 --description "Weekly AI improvement plan" 2>/dev/null || true
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Review the week
+        run: python scripts/weekly_review.py
+
+      - name: Commit the weekly log (documents your real commits)
+        run: |
+          digest=$(grep '^digest=' .weekly_outputs | cut -d= -f2- || true)
+          if [ -z "$digest" ]; then echo "No commits this week, so no log."; exit 0; fi
+          python scripts/build_index.py
+          git config user.name "Neetpal Singh"
+          git config user.email "neetpalsingh750@gmail.com"
+          git add "$digest" README.md
+          git commit -m "Weekly log: $(basename "$digest" .md)"
+
+      - name: Commit the improvement plan (as the bot)
+        run: |
+          plan=$(grep '^plan=' .weekly_outputs | cut -d= -f2- || true)
+          if [ -z "$plan" ]; then echo "Weekend had commits, so no plan needed."; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "$plan"
+          git commit -m "Improvement plan: $(basename "$plan" .md)"
+
+      - name: Push
+        run: |
+          rm -f .weekly_outputs
+          git push || echo "Nothing to push"
