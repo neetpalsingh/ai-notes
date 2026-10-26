@@ -5,6 +5,7 @@ Usage:
     python scripts/new_note.py til "Semantic chunking beats fixed-size" --category rag --tags chunking,embeddings
     python scripts/new_note.py paper "LoRA" --category fine-tuning
     python scripts/new_note.py snippet "Retry with backoff" --category backend --open
+    python scripts/new_note.py til "MCP auth" --category mcp --draft   # queue for the weekend
 """
 import argparse
 import datetime as dt
@@ -31,6 +32,7 @@ def main() -> int:
     parser.add_argument("--tags", default="", help="comma-separated tags")
     parser.add_argument("--date", default=dt.date.today().isoformat(), help="YYYY-MM-DD (default: today)")
     parser.add_argument("--open", action="store_true", help="open the note in $EDITOR / default app")
+    parser.add_argument("--draft", action="store_true", help="queue in drafts/; the weekend workflow publishes and dates it")
     args = parser.parse_args()
 
     category = slugify(args.category)
@@ -43,9 +45,14 @@ def main() -> int:
         .replace("{{tags}}", tags)
     )
 
-    folder = ROOT / "notes" / category
+    if args.draft:
+        # Queue order is filename order, so prefix with the time it was written
+        folder = ROOT / "drafts"
+        path = folder / f"{dt.datetime.now():%Y%m%d-%H%M%S}-{slugify(args.title)}.md"
+    else:
+        folder = ROOT / "notes" / category
+        path = folder / f"{args.date}-{slugify(args.title)}.md"
     folder.mkdir(parents=True, exist_ok=True)
-    path = folder / f"{args.date}-{slugify(args.title)}.md"
     if path.exists():
         print(f"Already exists: {path.relative_to(ROOT)}", file=sys.stderr)
         return 1

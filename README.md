@@ -14,7 +14,7 @@
 ---
 
 <!-- INDEX:START -->
-**4 notes** · 3 TILs · 1 paper · 0 snippets · 3 topics · active in 1 month
+**2 notes** · 2 TILs · 0 papers · 0 snippets · 2 topics · active in 1 month
 
 ### 🆕 Latest
 
@@ -22,20 +22,12 @@
 |---|---|---|---|
 | 2026-10-26 | [Semantic chunking beats fixed-size chunking](notes/rag/2026-10-26-semantic-chunking-beats-fixed-size-chunking.md) | 💡 TIL | `rag` |
 | 2026-10-26 | [Nothing over ~2 seconds belongs in the request cycle](notes/backend/2026-10-26-keep-slow-work-out-of-the-request-cycle.md) | 💡 TIL | `backend` |
-| 2026-10-26 | [LoRA: Low-Rank Adaptation of Large Language Models](notes/fine-tuning/2026-10-26-lora-low-rank-adaptation.md) | 📄 Paper | `fine-tuning` |
-| 2026-10-26 | [HttpOnly cookies over JWTs in localStorage](notes/backend/2026-10-26-httponly-cookies-over-jwt-in-localstorage.md) | 💡 TIL | `backend` |
 
 ### 🗂️ By topic
 
-<details><summary><b>backend</b> (2)</summary>
+<details><summary><b>backend</b> (1)</summary>
 
 - 2026-10-26 · [Nothing over ~2 seconds belongs in the request cycle](notes/backend/2026-10-26-keep-slow-work-out-of-the-request-cycle.md) `fastapi` `rabbitmq` `websockets` `async`
-- 2026-10-26 · [HttpOnly cookies over JWTs in localStorage](notes/backend/2026-10-26-httponly-cookies-over-jwt-in-localstorage.md) `auth` `security` `xss` `csrf` `sso`
-
-</details>
-<details><summary><b>fine-tuning</b> (1)</summary>
-
-- 2026-10-26 · [LoRA: Low-Rank Adaptation of Large Language Models](notes/fine-tuning/2026-10-26-lora-low-rank-adaptation.md) `lora` `peft` `fine-tuning`
 
 </details>
 <details><summary><b>rag</b> (1)</summary>
@@ -46,23 +38,31 @@
 
 ### 🏷️ Tags
 
-`chunking`×1 `extraction`×1 `context-window`×1 `fastapi`×1 `rabbitmq`×1 `websockets`×1 `async`×1 `lora`×1 `peft`×1 `fine-tuning`×1 `auth`×1 `security`×1 `xss`×1 `csrf`×1 `sso`×1
+`chunking`×1 `extraction`×1 `context-window`×1 `fastapi`×1 `rabbitmq`×1 `websockets`×1 `async`×1
 <!-- INDEX:END -->
 
 ---
 
 ## ✍️ Adding a note
 
+**Queue it (recommended).** Write notes whenever you like; they publish themselves on weekends:
+
 ```bash
-# TIL, paper summary or snippet: creates notes/<topic>/<date>-<slug>.md from a template
-python scripts/new_note.py til "What I learned" --category rag --tags chunking,embeddings
-python scripts/new_note.py paper "Paper title" --category agents
-python scripts/new_note.py snippet "Useful helper" --category backend
-
-# optional: rebuild the index locally (the GitHub Action also does this on every push)
-python scripts/build_index.py
-
-git add . && git commit -m "TIL: what I learned" && git push
+python scripts/new_note.py til "What I learned" --category rag --tags chunking,embeddings --draft
+# fill in the note in drafts/, then:
+git add . && git commit -m "Draft: what I learned" && git push
 ```
+
+Every **Saturday and Sunday**, the [weekend publish](.github/workflows/weekend-publish.yml) workflow moves the oldest drafts into `notes/`, 2–3 per day at random times between ~11:00 and ~22:00 IST. It dates each one, rebuilds the index and commits it as Neetpal Singh. When `drafts/` is empty, it publishes nothing.
+
+**Or publish straight away:**
+
+```bash
+python scripts/new_note.py paper "Paper title" --category agents     # also: til, snippet
+python scripts/build_index.py                                        # optional; CI does it too
+git add . && git commit -m "Paper: title" && git push
+```
+
+To publish a queued draft on demand: **Actions → Weekend publish → Run workflow**.
 
 Topics live in `notes/`: `rag`, `agents`, `mcp`, `llm`, `fine-tuning`, `backend`. Any new `--category` creates a new folder.
