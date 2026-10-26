@@ -9,6 +9,7 @@ Runs in GitHub Actions every Sunday night (see .github/workflows/weekly-review.y
   that documents the changes, plus exact stats computed here (never by the AI).
 * If there were no commits on Saturday or Sunday: writes plans/<year>-W<week>-plan.md,
   an AI improvement plan for next week, and opens it as a GitHub Issue.
+  The workflow commits both files as Neetpal Singh.
 
 Writes the paths it created to .weekly_outputs (digest=..., plan=...) for the workflow.
 
