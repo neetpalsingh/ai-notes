@@ -14,7 +14,7 @@
 ---
 
 <!-- INDEX:START -->
-**2 notes** · 2 TILs · 0 papers · 0 snippets · 2 topics · active in 1 month
+**3 notes** · 3 TILs · 0 papers · 0 snippets · 2 topics · active in 1 month
 
 ### 🆕 Latest
 
@@ -22,12 +22,14 @@
 |---|---|---|---|
 | 2026-10-26 | [Semantic chunking beats fixed-size chunking](notes/rag/2026-10-26-semantic-chunking-beats-fixed-size-chunking.md) | 💡 TIL | `rag` |
 | 2026-10-26 | [Nothing over ~2 seconds belongs in the request cycle](notes/backend/2026-10-26-keep-slow-work-out-of-the-request-cycle.md) | 💡 TIL | `backend` |
+| 2026-10-26 | [HttpOnly cookies over JWTs in localStorage](notes/backend/2026-10-26-httponly-cookies-over-jwts-in-localstorage.md) | 💡 TIL | `backend` |
 
 ### 🗂️ By topic
 
-<details><summary><b>backend</b> (1)</summary>
+<details><summary><b>backend</b> (2)</summary>
 
 - 2026-10-26 · [Nothing over ~2 seconds belongs in the request cycle](notes/backend/2026-10-26-keep-slow-work-out-of-the-request-cycle.md) `fastapi` `rabbitmq` `websockets` `async`
+- 2026-10-26 · [HttpOnly cookies over JWTs in localStorage](notes/backend/2026-10-26-httponly-cookies-over-jwts-in-localstorage.md) `auth` `security` `xss` `csrf` `sso`
 
 </details>
 <details><summary><b>rag</b> (1)</summary>
@@ -38,7 +40,7 @@
 
 ### 🏷️ Tags
 
-`chunking`×1 `extraction`×1 `context-window`×1 `fastapi`×1 `rabbitmq`×1 `websockets`×1 `async`×1
+`chunking`×1 `extraction`×1 `context-window`×1 `fastapi`×1 `rabbitmq`×1 `websockets`×1 `async`×1 `auth`×1 `security`×1 `xss`×1 `csrf`×1 `sso`×1
 <!-- INDEX:END -->
 
 ---
