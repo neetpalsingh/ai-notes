@@ -40,16 +40,31 @@ MAX_CONTEXT_CHARS = 24000
 
 
 def http_json(method: str, url: str, token: str, body: dict | None = None) -> dict:
-    """Minimal JSON HTTP helper (stdlib only, easy to stub in tests)."""
+    """Minimal JSON HTTP helper (stdlib only, easy to stub in tests).
+
+    Raises RuntimeError with the status and the start of the body when the reply
+    is an HTTP error or isn't JSON, so the log shows what the server actually said.
+    """
     data = json.dumps(body).encode() if body is not None else None
     req = urllib.request.Request(url, data=data, method=method)
-    req.add_header("Accept", "application/vnd.github+json")
+    is_models = url.startswith(MODELS_URL.rsplit("/inference", 1)[0])
+    req.add_header("Accept", "application/json" if is_models else "application/vnd.github+json")
     req.add_header("Authorization", f"Bearer {token}")
     req.add_header("X-GitHub-Api-Version", "2022-11-28")
+    req.add_header("User-Agent", "ai-notes-weekly-review")
     if data is not None:
         req.add_header("Content-Type", "application/json")
-    with urllib.request.urlopen(req, timeout=60) as res:
-        return json.loads(res.read().decode() or "{}")
+    try:
+        with urllib.request.urlopen(req, timeout=90) as res:
+            status, raw = res.status, res.read().decode("utf-8", "replace")
+    except urllib.error.HTTPError as err:
+        raise RuntimeError(f"{method} {url} -> HTTP {err.code}: {err.read().decode('utf-8', 'replace')[:400]}") from err
+    if not raw.strip():
+        return {}
+    try:
+        return json.loads(raw)
+    except json.JSONDecodeError as err:
+        raise RuntimeError(f"{method} {url} -> HTTP {status}, not JSON: {raw[:400]!r}") from err
 
 
 def week_window(today: dt.date) -> tuple[dt.date, dt.date]:
@@ -130,8 +145,8 @@ def ask_model(system: str, user: str, token: str, model: str) -> str | None:
             "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
         })
         return res["choices"][0]["message"]["content"].strip()
-    except (urllib.error.URLError, KeyError, IndexError, TimeoutError) as err:
-        print(f"GitHub Models call failed: {err}", file=sys.stderr)
+    except Exception as err:  # never let the AI step break the weekly log
+        print(f"::warning::GitHub Models call failed, writing the log without AI text: {err}", file=sys.stderr)
         return None
 
 
@@ -191,8 +206,8 @@ def write_plan(commits, start, end, year, week, token, model, repo) -> Path:
     path.write_text(f"# {title}\n\n{body}\n\n<sub>Generated with GitHub Models ({model}) because there were no weekend commits.</sub>\n", encoding="utf-8")
     try:
         http_json("POST", f"{API}/repos/{repo}/issues", token, {"title": title, "body": body, "labels": ["improvement-plan"]})
-    except urllib.error.URLError as err:
-        print(f"Could not open the issue: {err}", file=sys.stderr)
+    except Exception as err:
+        print(f"::warning::Could not open the issue: {err}", file=sys.stderr)
     return path
 
 
