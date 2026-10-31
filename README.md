@@ -14,12 +14,13 @@
 ---
 
 <!-- INDEX:START -->
-**3 notes** · 3 TILs · 0 papers · 0 snippets · 2 topics · active in 1 month
+**4 notes** · 3 TILs · 1 paper · 0 snippets · 3 topics · active in 1 month
 
 ### 🆕 Latest
 
 | Date | Note | Type | Topic |
 |---|---|---|---|
+| 2026-10-31 | [LoRA: Low-Rank Adaptation of Large Language Models](notes/fine-tuning/2026-10-31-lora-low-rank-adaptation-of-large-language-models.md) | 📄 Paper | `fine-tuning` |
 | 2026-10-26 | [Semantic chunking beats fixed-size chunking](notes/rag/2026-10-26-semantic-chunking-beats-fixed-size-chunking.md) | 💡 TIL | `rag` |
 | 2026-10-26 | [Nothing over ~2 seconds belongs in the request cycle](notes/backend/2026-10-26-keep-slow-work-out-of-the-request-cycle.md) | 💡 TIL | `backend` |
 | 2026-10-26 | [HttpOnly cookies over JWTs in localStorage](notes/backend/2026-10-26-httponly-cookies-over-jwts-in-localstorage.md) | 💡 TIL | `backend` |
@@ -32,6 +33,11 @@
 - 2026-10-26 · [HttpOnly cookies over JWTs in localStorage](notes/backend/2026-10-26-httponly-cookies-over-jwts-in-localstorage.md) `auth` `security` `xss` `csrf` `sso`
 
 </details>
+<details><summary><b>fine-tuning</b> (1)</summary>
+
+- 2026-10-31 · [LoRA: Low-Rank Adaptation of Large Language Models](notes/fine-tuning/2026-10-31-lora-low-rank-adaptation-of-large-language-models.md) `lora` `peft` `fine-tuning`
+
+</details>
 <details><summary><b>rag</b> (1)</summary>
 
 - 2026-10-26 · [Semantic chunking beats fixed-size chunking](notes/rag/2026-10-26-semantic-chunking-beats-fixed-size-chunking.md) `chunking` `extraction` `context-window`
@@ -40,7 +46,7 @@
 
 ### 🏷️ Tags
 
-`chunking`×1 `extraction`×1 `context-window`×1 `fastapi`×1 `rabbitmq`×1 `websockets`×1 `async`×1 `auth`×1 `security`×1 `xss`×1 `csrf`×1 `sso`×1
+`lora`×1 `peft`×1 `fine-tuning`×1 `chunking`×1 `extraction`×1 `context-window`×1 `fastapi`×1 `rabbitmq`×1 `websockets`×1 `async`×1 `auth`×1 `security`×1 `xss`×1 `csrf`×1 `sso`×1
 <!-- INDEX:END -->
 
 ---

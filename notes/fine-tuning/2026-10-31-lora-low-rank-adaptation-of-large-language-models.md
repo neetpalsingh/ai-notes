@@ -1,6 +1,6 @@
 ---
 title: "LoRA: Low-Rank Adaptation of Large Language Models"
-date: 2026-10-26
+date: 2026-10-31
 type: paper
 category: fine-tuning
 tags: [lora, peft, fine-tuning]
