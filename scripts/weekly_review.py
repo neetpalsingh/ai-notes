@@ -144,7 +144,10 @@ def ask_model(system: str, user: str, token: str, model: str) -> str | None:
             "temperature": 0.3,
             "messages": [{"role": "system", "content": system}, {"role": "user", "content": user}],
         })
-        return res["choices"][0]["message"]["content"].strip()
+        content = ((res.get("choices") or [{}])[0].get("message") or {}).get("content")
+        if isinstance(content, str) and content.strip():
+            return content.strip()
+        raise RuntimeError("empty or invalid GitHub Models response payload")
     except Exception as err:  # never let the AI step break the weekly log
         print(f"::warning::GitHub Models call failed, writing the log without AI text: {err}", file=sys.stderr)
         return None
